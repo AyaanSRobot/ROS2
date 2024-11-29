@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Santa Sim</title>
+        <style>
+            body{
+                width: 100%;
+                height: 100%;
+                text-align: center;
+            }
+            svg {
+                border-radius: 5%;
+                border: 0.2rem dashed black;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>Santa Sim</h1>
+            <svg width="500" height="500" viewBox="-10 -10 20 20">
+                <circle cx="0" cy="0" r="0.1" fill="black"/>
+                <g id="kane">
+                    <!--Kanen-->
+                    <rect x="-0.5" y="-1.0" width="1" height="2" rx=".1" fill="brown"/>
+                    <!--Gavesæk-->
+                    <circle cx="0" cy="0.8" r="0.5" fill="orange"/>
+                    <circle cx="0" cy="0.9" r="0.1" stroke="black" fill="none" stroke-width="0.05"/>
+                    <!--Julemand-->
+                    <circle r="0.4" fill="red"/>
+                    <circle r="0.1" cy="0.1" fill="white"/>
+                </g>
+            </svg>
+        </div>
+        <script>       
+            const kane = document.getElementById("kane");
+
+            function get_state(){
+                fetch('get_state.json')
+                .then(response => response.json())
+                .then(json => {
+                    const pos_x = json.pos_x;
+                    const pos_y = json.pos_y;
+                    const speed_x = json.speed_x;
+                    const speed_y = json.speed_y;
+
+                    const angle = Math.atan2(speed_y, speed_x);
+                    
+                    // update view
+                    kane.setAttribute(
+                        "transform", 
+                        `translate(${pos_x}, ${pos_y}), rotate(${angle / Math.PI * 180 + 90})`,
+                    );
+                    window.setTimeout(get_state, 20);
+                }).catch(e => {
+                    // retry every two seconds
+                    console.log(e);
+                    window.setTimeout(get_state, 2000);
+                });
+            }
+
+            get_state();
+        </script>
+    </body>
+</html>
