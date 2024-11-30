@@ -25,7 +25,7 @@ class KeyboardPublisher(Node):
 def main():
     rclpy.init()
     publisher = KeyboardPublisher()
-    with Input() as input_generator:
+    with Input() as input_generator: #Input() provides user keypress events and other control events
         for e in input_generator:
             publisher.publish(e)
 

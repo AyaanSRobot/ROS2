@@ -37,8 +37,8 @@ RUN source "/opt/ros/jazzy/setup.bash" && colcon build
 
 # You can do the same when you develop your keyboard controller.  
 # Outcomment these lines:  
-# COPY ros-workspace/src/santa_keyboard_controller ./src/santa_keyboard_controller  
-# RUN source "/opt/ros/jazzy/setup.bash" && colcon build  
+COPY ros-workspace/src/santa_keyboard_controller ./src/santa_keyboard_controller  
+RUN source "/opt/ros/jazzy/setup.bash" && colcon build  
 
 # Entrypoint: "entrypoint.sh" makes sure to source ROS2 and our build, so we don't have
 # to do it manually when starting the container.
